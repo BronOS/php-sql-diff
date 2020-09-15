@@ -5,26 +5,13 @@ namespace BronOS\PhpSqlDiscovery\Tests;
 
 use BronOS\PhpSqlDiff\DefaultSQLTableDiffer;
 use BronOS\PhpSqlDiff\Diff\ColumnDiff;
-use BronOS\PhpSqlDiff\Diff\DiffTypeEnum;
 use BronOS\PhpSqlDiff\Diff\IndexDiff;
 use BronOS\PhpSqlDiff\Diff\TableDiff;
-use BronOS\PhpSqlDiff\SQLIndexDiffer;
-use BronOS\PhpSqlDiff\SQLRelationDiffer;
-use BronOS\PhpSqlDiff\SQLTableDiffer;
 use BronOS\PhpSqlSchema\Column\Numeric\IntColumn;
-use BronOS\PhpSqlSchema\Column\Numeric\IntColumnInterface;
 use BronOS\PhpSqlSchema\Column\String\VarCharColumn;
-use BronOS\PhpSqlSchema\Column\String\VarCharColumnInterface;
-use BronOS\PhpSqlSchema\Index\IndexInterface;
 use BronOS\PhpSqlSchema\Index\Key;
 use BronOS\PhpSqlSchema\Index\PrimaryKey;
-use BronOS\PhpSqlSchema\Index\UniqueKey;
-use BronOS\PhpSqlSchema\Relation\Action\CascadeAction;
-use BronOS\PhpSqlSchema\Relation\Action\NoAction;
-use BronOS\PhpSqlSchema\Relation\Action\RestrictAction;
-use BronOS\PhpSqlSchema\Relation\Action\SetNullAction;
 use BronOS\PhpSqlSchema\Relation\ForeignKey;
-use BronOS\PhpSqlSchema\Relation\ForeignKeyInterface;
 use BronOS\PhpSqlSchema\SQLTableSchema;
 use PHPUnit\Framework\TestCase;
 

@@ -42,7 +42,6 @@ use BronOS\PhpSqlSchema\Exception\IndexNotFoundException;
 use BronOS\PhpSqlSchema\Exception\RelationNotFoundException;
 use BronOS\PhpSqlSchema\Index\IndexInterface;
 use BronOS\PhpSqlSchema\Index\PrimaryKey;
-use BronOS\PhpSqlSchema\Relation\ForeignKeyInterface;
 use BronOS\PhpSqlSchema\SQLTableSchemaInterface;
 
 /**

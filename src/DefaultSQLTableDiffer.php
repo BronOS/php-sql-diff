@@ -34,10 +34,6 @@ declare(strict_types=1);
 namespace BronOS\PhpSqlDiff;
 
 
-use BronOS\PhpSqlDiff\Diff\DiffTypeEnum;
-use BronOS\PhpSqlDiff\Diff\TableDiff;
-use BronOS\PhpSqlSchema\SQLTableSchemaInterface;
-
 /**
  * SQL table schema differ.
  * Responsible for comparison of sql table schemas and finding a diff between of them.

@@ -36,7 +36,6 @@ namespace BronOS\PhpSqlDiff;
 
 use BronOS\PhpSqlDiff\Diff\IndexDiff;
 use BronOS\PhpSqlSchema\Index\IndexInterface;
-use BronOS\PhpSqlSchema\Relation\ForeignKeyInterface;
 use BronOS\PhpSqlSchema\SQLTableSchemaInterface;
 
 /**
