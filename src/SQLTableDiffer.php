@@ -104,6 +104,7 @@ class SQLTableDiffer implements SQLTableDifferInterface
             $schema1,
             $schema2,
             $isName,
+            $isEngine,
             $isCharset,
             $isCollation,
             $columns,

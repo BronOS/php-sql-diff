@@ -54,6 +54,7 @@ class TableDiff extends AbstractDiff
     private array $columns = [];
     private array $indexes = [];
     private array $relations = [];
+    private bool $isEngine;
 
     /**
      * TableDiff constructor.
@@ -62,6 +63,7 @@ class TableDiff extends AbstractDiff
      * @param SQLTableSchemaInterface|null $sourceObject
      * @param SQLTableSchemaInterface|null $targetObject
      * @param bool                         $isName
+     * @param bool                         $isEngine
      * @param bool                         $isCharset
      * @param bool                         $isCollate
      * @param array                        $columns
@@ -73,6 +75,7 @@ class TableDiff extends AbstractDiff
         ?SQLTableSchemaInterface $sourceObject = null,
         ?SQLTableSchemaInterface $targetObject = null,
         bool $isName = false,
+        bool $isEngine = false,
         bool $isCharset = false,
         bool $isCollate = false,
         array $columns = [],
@@ -84,6 +87,7 @@ class TableDiff extends AbstractDiff
         $this->sourceObject = $sourceObject;
         $this->targetObject = $targetObject;
         $this->isName = $isName;
+        $this->isEngine = $isEngine;
         $this->isCharset = $isCharset;
         $this->isCollate = $isCollate;
         $this->columns = $columns;
@@ -113,6 +117,14 @@ class TableDiff extends AbstractDiff
     public function isName(): bool
     {
         return $this->isName;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEngine(): bool
+    {
+        return $this->isEngine;
     }
 
     /**
