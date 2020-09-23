@@ -51,9 +51,9 @@ class TableDiff extends AbstractDiff
     private bool $isName;
     private bool $isCharset;
     private bool $isCollate;
-    private array $columns = [];
-    private array $indexes = [];
-    private array $relations = [];
+    private array $columnDiffs = [];
+    private array $indexDiffs = [];
+    private array $relationDiffs = [];
     private bool $isEngine;
 
     /**
@@ -66,9 +66,9 @@ class TableDiff extends AbstractDiff
      * @param bool                         $isEngine
      * @param bool                         $isCharset
      * @param bool                         $isCollate
-     * @param array                        $columns
-     * @param array                        $indexes
-     * @param array                        $relations
+     * @param array                        $columnDiffs
+     * @param array                        $indexDiffs
+     * @param array                        $relationDiffs
      */
     public function __construct(
         DiffTypeEnum $diffType,
@@ -78,9 +78,9 @@ class TableDiff extends AbstractDiff
         bool $isEngine = false,
         bool $isCharset = false,
         bool $isCollate = false,
-        array $columns = [],
-        array $indexes = [],
-        array $relations = []
+        array $columnDiffs = [],
+        array $indexDiffs = [],
+        array $relationDiffs = []
     ) {
         parent::__construct($diffType);
 
@@ -90,9 +90,9 @@ class TableDiff extends AbstractDiff
         $this->isEngine = $isEngine;
         $this->isCharset = $isCharset;
         $this->isCollate = $isCollate;
-        $this->columns = $columns;
-        $this->indexes = $indexes;
-        $this->relations = $relations;
+        $this->columnDiffs = $columnDiffs;
+        $this->indexDiffs = $indexDiffs;
+        $this->relationDiffs = $relationDiffs;
     }
 
     /**
@@ -148,7 +148,7 @@ class TableDiff extends AbstractDiff
      */
     public function isColumns(): bool
     {
-        return count($this->getColumns()) > 0;
+        return count($this->getColumnDiffs()) > 0;
     }
 
     /**
@@ -156,7 +156,7 @@ class TableDiff extends AbstractDiff
      */
     public function isRelations(): bool
     {
-        return count($this->getRelations()) > 0;
+        return count($this->getRelationDiffs()) > 0;
     }
 
     /**
@@ -164,30 +164,30 @@ class TableDiff extends AbstractDiff
      */
     public function isIndexes(): bool
     {
-        return count($this->getIndexes()) > 0;
+        return count($this->getIndexDiffs()) > 0;
     }
 
     /**
      * @return ColumnDiff[]
      */
-    public function getColumns(): array
+    public function getColumnDiffs(): array
     {
-        return $this->columns;
+        return $this->columnDiffs;
     }
 
     /**
      * @return IndexDiff[]
      */
-    public function getIndexes(): array
+    public function getIndexDiffs(): array
     {
-        return $this->indexes;
+        return $this->indexDiffs;
     }
 
     /**
      * @return RelationDiff[]
      */
-    public function getRelations(): array
+    public function getRelationDiffs(): array
     {
-        return $this->relations;
+        return $this->relationDiffs;
     }
 }

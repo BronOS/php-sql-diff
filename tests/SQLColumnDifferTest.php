@@ -36,7 +36,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $this->assertNull($differ->diff($clm1, $clm2));
+        $this->assertNull($differ->diff($clm1, $clm2, '', ''));
     }
 
     public function testNoDiffBoolTinyInt()
@@ -57,7 +57,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $this->assertNull($differ->diff($clm1, $clm2));
+        $this->assertNull($differ->diff($clm1, $clm2, '', ''));
     }
 
     public function testDiffBoolTinyInt()
@@ -72,7 +72,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, '', '');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -121,7 +121,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, '', '');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -174,7 +174,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, 'latin1', 'latin1_general_ci');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -217,7 +217,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, '', '');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -260,7 +260,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, '', '');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -303,7 +303,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diff = $differ->diff($clm1, $clm2);
+        $diff = $differ->diff($clm1, $clm2, 'latin1', 'latin1_general_ci');
 
         $this->assertNotNull($diff);
         $this->assertInstanceOf(ColumnDiff::class, $diff);
@@ -345,7 +345,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diffList = $differ->hashDiff([], [$clm1->getName() => $clm1]);
+        $diffList = $differ->hashDiff([], [$clm1->getName() => $clm1], '', '');
 
         $this->assertCount(1, $diffList);
 
@@ -391,7 +391,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diffList = $differ->hashDiff([$clm1->getName() => $clm1], []);
+        $diffList = $differ->hashDiff([$clm1->getName() => $clm1], [], '', '');
 
         $this->assertCount(1, $diffList);
 
@@ -444,7 +444,7 @@ class SQLColumnDifferTest extends TestCase
 
         $differ = new SQLColumnDiffer();
 
-        $diffList = $differ->hashDiff([$clm1->getName() => $clm1], [$clm2->getName() => $clm2]);
+        $diffList = $differ->hashDiff([$clm1->getName() => $clm1], [$clm2->getName() => $clm2], '', '');
 
         $this->assertCount(1, $diffList);
 

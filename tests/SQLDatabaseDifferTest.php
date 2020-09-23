@@ -3,6 +3,7 @@
 namespace BronOS\PhpSqlDiscovery\Tests;
 
 
+use BronOS\PhpSqlDiff\DefaultSQLDatabaseDiffer;
 use BronOS\PhpSqlDiff\DefaultSQLTableDiffer;
 use BronOS\PhpSqlDiff\Diff\ColumnDiff;
 use BronOS\PhpSqlDiff\Diff\IndexDiff;
@@ -12,10 +13,11 @@ use BronOS\PhpSqlSchema\Column\String\VarCharColumn;
 use BronOS\PhpSqlSchema\Index\Key;
 use BronOS\PhpSqlSchema\Index\PrimaryKey;
 use BronOS\PhpSqlSchema\Relation\ForeignKey;
+use BronOS\PhpSqlSchema\SQLDatabaseSchema;
 use BronOS\PhpSqlSchema\SQLTableSchema;
 use PHPUnit\Framework\TestCase;
 
-class SQLTableDifferTest extends TestCase
+class SQLDatabaseDifferTest extends TestCase
 {
     public function testNoDiff()
     {
@@ -94,9 +96,21 @@ class SQLTableDifferTest extends TestCase
             'latin1_general_ci'
         );
 
-        $differ = new DefaultSQLTableDiffer();
+        $db1 = new SQLDatabaseSchema(
+            'db1',
+            [$table1],
+        );
+        $db2 = new SQLDatabaseSchema(
+            'db1',
+            [$table2],
+            $table2->getEngine(),
+            $table2->getCharset(),
+            $table2->getCollation()
+        );
 
-        $this->assertNull($differ->diff($table1, $table2, 'InnoDB', 'latin1', 'latin1_general_ci'));
+        $differ = new DefaultSQLDatabaseDiffer();
+
+        $this->assertNull($differ->diff($db1, $db2, $db2->getDefaultEngine(), $db2->getDefaultCharset(), $db2->getDefaultCollation()));
     }
 
     public function testDiffNewDeleted()

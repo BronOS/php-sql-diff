@@ -75,16 +75,31 @@ class SQLTableDiffer implements SQLTableDifferInterface
      *
      * @param SQLTableSchemaInterface $schema1
      * @param SQLTableSchemaInterface $schema2
+     * @param string                  $defaultEngine
+     * @param string                  $defaultCharset
+     * @param string                  $defaultCollation
      *
      * @return TableDiff|null
      */
-    public function diff(SQLTableSchemaInterface $schema1, SQLTableSchemaInterface $schema2): ?TableDiff
-    {
+    public function diff(
+        SQLTableSchemaInterface $schema1,
+        SQLTableSchemaInterface $schema2,
+        string $defaultEngine,
+        string $defaultCharset,
+        string $defaultCollation
+    ): ?TableDiff {
         $isName = $schema1->getName() != $schema2->getName();
-        $isEngine = $schema1->getEngine() != $schema2->getEngine();
-        $isCharset = $schema1->getDefaultCharset() != $schema2->getDefaultCharset();
-        $isCollation = $schema1->getCollate() != $schema2->getCollate();
-        $columns = $this->columnDiffer->hashDiff($schema1->getColumns(), $schema2->getColumns());
+
+        $isEngine = $this->compareStrings($schema1->getEngine(), $schema2->getEngine(), $defaultEngine);
+        $isCharset = $this->compareStrings($schema1->getCharset(), $schema2->getCharset(), $defaultCharset);
+        $isCollation = $this->compareStrings($schema1->getCollation(), $schema2->getCollation(), $defaultCollation);
+
+        $columns = $this->columnDiffer->hashDiff(
+            $schema1->getColumns(),
+            $schema2->getColumns(),
+            $schema1->getCharset() ?? $defaultCharset,
+            $schema1->getCollation() ?? $defaultCollation
+        );
         $indexes = $this->indexDiffer->hashDiff($schema1, $schema2);
         $relations = $this->relationDiffer->hashDiff($schema1->getRelations(), $schema2->getRelations());
 
@@ -114,15 +129,43 @@ class SQLTableDiffer implements SQLTableDifferInterface
     }
 
     /**
+     * @param string|null $str1
+     * @param string|null $str2
+     * @param string      $default
+     *
+     * @return bool
+     */
+    private function compareStrings(?string $str1, ?string $str2, string $default): bool
+    {
+        if ($str1 === $default) {
+            $str1 = null;
+        }
+
+        if ($str2 === $default) {
+            $str2 = null;
+        }
+
+        return $str1 !== $str2;
+    }
+
+    /**
      * Finds a diff between passed sql table's hashes.
      *
      * @param SQLTableSchemaInterface[] $hash1
      * @param SQLTableSchemaInterface[] $hash2
+     * @param string                    $defaultEngine
+     * @param string                    $defaultCharset
+     * @param string                    $defaultCollation
      *
      * @return TableDiff[]
      */
-    public function hashDiff(array $hash1, array $hash2): array
-    {
+    public function hashDiff(
+        array $hash1,
+        array $hash2,
+        string $defaultEngine,
+        string $defaultCharset,
+        string $defaultCollation
+    ): array {
         $diffList = [];
         $processed = [];
 
@@ -139,7 +182,7 @@ class SQLTableDiffer implements SQLTableDifferInterface
             }
 
             // modified
-            $diff = $this->diff($tbl1, $hash2[$tbl1->getName()]);
+            $diff = $this->diff($tbl1, $hash2[$tbl1->getName()], $defaultEngine, $defaultCharset, $defaultCollation);
             if (!is_null($diff)) {
                 $diffList[] = $diff;
             }

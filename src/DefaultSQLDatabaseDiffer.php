@@ -34,55 +34,30 @@ declare(strict_types=1);
 namespace BronOS\PhpSqlDiff;
 
 
+use BronOS\PhpSqlDiff\Diff\DatabaseDiff;
+use BronOS\PhpSqlDiff\Diff\DiffTypeEnum;
 use BronOS\PhpSqlDiff\Diff\TableDiff;
+use BronOS\PhpSqlSchema\SQLDatabaseSchemaInterface;
 use BronOS\PhpSqlSchema\SQLTableSchemaInterface;
 
 /**
- * SQL table schema differ.
- * Responsible for comparison of sql table schemas and finding a diff between of them.
+ * Default SQL database schema differ.
+ * Responsible for comparison of sql database schemas and finding a diff between of them.
  *
  * @package   bronos\php-sql-diff
  * @author    Oleg Bronzov <oleg.bronzov@gmail.com>
  * @copyright 2020
  * @license   https://opensource.org/licenses/MIT
  */
-interface SQLTableDifferInterface
+class DefaultSQLDatabaseDiffer extends SQLDatabaseDiffer
 {
     /**
-     * Finds a diff between passed sql table schemas.
-     *
-     * @param SQLTableSchemaInterface $schema1
-     * @param SQLTableSchemaInterface $schema2
-     * @param string                  $defaultEngine
-     * @param string                  $defaultCharset
-     * @param string                  $defaultCollation
-     *
-     * @return TableDiff|null
+     * DefaultSQLDatabaseDiffer constructor.
      */
-    public function diff(
-        SQLTableSchemaInterface $schema1,
-        SQLTableSchemaInterface $schema2,
-        string $defaultEngine,
-        string $defaultCharset,
-        string $defaultCollation
-    ): ?TableDiff;
-
-    /**
-     * Finds a diff between passed sql table's hashes.
-     *
-     * @param SQLTableSchemaInterface[] $hash1
-     * @param SQLTableSchemaInterface[] $hash2
-     * @param string                    $defaultEngine
-     * @param string                    $defaultCharset
-     * @param string                    $defaultCollation
-     *
-     * @return TableDiff[]
-     */
-    public function hashDiff(
-        array $hash1,
-        array $hash2,
-        string $defaultEngine,
-        string $defaultCharset,
-        string $defaultCollation
-    ): array;
+    public function __construct()
+    {
+        parent::__construct(
+            new DefaultSQLTableDiffer()
+        );
+    }
 }

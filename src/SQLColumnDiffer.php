@@ -68,11 +68,17 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
      *
      * @param ColumnInterface $column1
      * @param ColumnInterface $column2
+     * @param string          $defaultCharset
+     * @param string          $defaultCollation
      *
      * @return ColumnDiff|null
      */
-    public function diff(ColumnInterface $column1, ColumnInterface $column2): ?ColumnDiff
-    {
+    public function diff(
+        ColumnInterface $column1,
+        ColumnInterface $column2,
+        string $defaultCharset,
+        string $defaultCollation
+    ): ?ColumnDiff {
         $isName = $column1->getName() != $column2->getName();
         $isType = $this->isType($column1, $column2);
         $isNullable = $column1->isNullable() != $column2->isNullable();
@@ -80,8 +86,8 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
         $isComment = $column1->getComment() != $column2->getComment();
         $isAutoincrement = $this->isAutoincrement($column1, $column2);
         $isBinary = $this->isBinary($column1, $column2);
-        $isCharset = $this->isCharset($column1, $column2);
-        $isCollate = $this->isCollate($column1, $column2);
+        $isCharset = $this->isCharset($column1, $column2, $defaultCharset);
+        $isCollate = $this->isCollate($column1, $column2, $defaultCollation);
         $isPrecision = $this->isPrecision($column1, $column2);
         $isScale = $this->isScale($column1, $column2);
         $isDefaultTimestamp = $this->isDefaultTimestamp($column1, $column2);
@@ -236,19 +242,20 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
     /**
      * @param ColumnInterface $column1
      * @param ColumnInterface $column2
+     * @param string          $defaultCharset
      *
      * @return bool
      */
-    private function isCharset(ColumnInterface $column1, ColumnInterface $column2): bool
+    private function isCharset(ColumnInterface $column1, ColumnInterface $column2, string $defaultCharset): bool
     {
         $res1 = null;
         $res2 = null;
 
-        if ($column1 instanceof CharsetColumnAttributeInterface) {
+        if ($column1 instanceof CharsetColumnAttributeInterface && $column1->getCharset() !== $defaultCharset) {
             $res1 = $column1->getCharset();
         }
 
-        if ($column2 instanceof CharsetColumnAttributeInterface) {
+        if ($column2 instanceof CharsetColumnAttributeInterface && $column2->getCharset() !== $defaultCharset) {
             $res2 = $column2->getCharset();
         }
 
@@ -258,19 +265,20 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
     /**
      * @param ColumnInterface $column1
      * @param ColumnInterface $column2
+     * @param string          $defaultCollation
      *
      * @return bool
      */
-    private function isCollate(ColumnInterface $column1, ColumnInterface $column2): bool
+    private function isCollate(ColumnInterface $column1, ColumnInterface $column2, string $defaultCollation): bool
     {
         $res1 = null;
         $res2 = null;
 
-        if ($column1 instanceof CollateColumnAttributeInterface) {
+        if ($column1 instanceof CollateColumnAttributeInterface && $column1->getCollate() !== $defaultCollation) {
             $res1 = $column1->getCollate();
         }
 
-        if ($column2 instanceof CollateColumnAttributeInterface) {
+        if ($column2 instanceof CollateColumnAttributeInterface && $column2->getCollate() !== $defaultCollation) {
             $res2 = $column2->getCollate();
         }
 
@@ -482,11 +490,17 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
      *
      * @param ColumnInterface[] $hash1
      * @param ColumnInterface[] $hash2
+     * @param string            $defaultCharset
+     * @param string            $defaultCollation
      *
      * @return ColumnDiff[]
      */
-    public function hashDiff(array $hash1, array $hash2): array
-    {
+    public function hashDiff(
+        array $hash1,
+        array $hash2,
+        string $defaultCharset,
+        string $defaultCollation
+    ): array {
         $diffList = [];
         $processed = [];
 
@@ -503,7 +517,7 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
             }
 
             // modified
-            $diff = $this->diff($idx1, $hash2[$idx1->getName()]);
+            $diff = $this->diff($idx1, $hash2[$idx1->getName()], $defaultCharset, $defaultCollation);
             if (!is_null($diff)) {
                 $diffList[] = $diff;
             }

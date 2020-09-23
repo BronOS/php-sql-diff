@@ -34,55 +34,38 @@ declare(strict_types=1);
 namespace BronOS\PhpSqlDiff;
 
 
+use BronOS\PhpSqlDiff\Diff\DatabaseDiff;
 use BronOS\PhpSqlDiff\Diff\TableDiff;
+use BronOS\PhpSqlSchema\SQLDatabaseSchemaInterface;
 use BronOS\PhpSqlSchema\SQLTableSchemaInterface;
 
 /**
- * SQL table schema differ.
- * Responsible for comparison of sql table schemas and finding a diff between of them.
+ * SQL database schema differ.
+ * Responsible for comparison of sql database schemas and finding a diff between of them.
  *
  * @package   bronos\php-sql-diff
  * @author    Oleg Bronzov <oleg.bronzov@gmail.com>
  * @copyright 2020
  * @license   https://opensource.org/licenses/MIT
  */
-interface SQLTableDifferInterface
+interface SQLDatabaseDifferInterface
 {
     /**
-     * Finds a diff between passed sql table schemas.
+     * Finds a diff between passed sql database schemas.
      *
-     * @param SQLTableSchemaInterface $schema1
-     * @param SQLTableSchemaInterface $schema2
-     * @param string                  $defaultEngine
-     * @param string                  $defaultCharset
-     * @param string                  $defaultCollation
+     * @param SQLDatabaseSchemaInterface $schema1
+     * @param SQLDatabaseSchemaInterface $schema2
+     * @param string                     $defaultEngine
+     * @param string                     $defaultCharset
+     * @param string                     $defaultCollation
      *
-     * @return TableDiff|null
+     * @return DatabaseDiff|null
      */
     public function diff(
-        SQLTableSchemaInterface $schema1,
-        SQLTableSchemaInterface $schema2,
+        SQLDatabaseSchemaInterface $schema1,
+        SQLDatabaseSchemaInterface $schema2,
         string $defaultEngine,
         string $defaultCharset,
         string $defaultCollation
-    ): ?TableDiff;
-
-    /**
-     * Finds a diff between passed sql table's hashes.
-     *
-     * @param SQLTableSchemaInterface[] $hash1
-     * @param SQLTableSchemaInterface[] $hash2
-     * @param string                    $defaultEngine
-     * @param string                    $defaultCharset
-     * @param string                    $defaultCollation
-     *
-     * @return TableDiff[]
-     */
-    public function hashDiff(
-        array $hash1,
-        array $hash2,
-        string $defaultEngine,
-        string $defaultCharset,
-        string $defaultCollation
-    ): array;
+    ): ?DatabaseDiff;
 }

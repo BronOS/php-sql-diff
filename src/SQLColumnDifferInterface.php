@@ -53,18 +53,32 @@ interface SQLColumnDifferInterface
      *
      * @param ColumnInterface $column1
      * @param ColumnInterface $column2
+     * @param string          $defaultCharset
+     * @param string          $defaultCollation
      *
      * @return ColumnDiff|null
      */
-    public function diff(ColumnInterface $column1, ColumnInterface $column2): ?ColumnDiff;
+    public function diff(
+        ColumnInterface $column1,
+        ColumnInterface $column2,
+        string $defaultCharset,
+        string $defaultCollation
+    ): ?ColumnDiff;
 
     /**
      * Finds a diff between passed sql column's hashes.
      *
      * @param ColumnInterface[] $hash1
      * @param ColumnInterface[] $hash2
+     * @param string            $defaultCharset
+     * @param string            $defaultCollation
      *
      * @return ColumnDiff[]
      */
-    public function hashDiff(array $hash1, array $hash2): array;
+    public function hashDiff(
+        array $hash1,
+        array $hash2,
+        string $defaultCharset,
+        string $defaultCollation
+    ): array;
 }
