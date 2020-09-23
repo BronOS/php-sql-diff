@@ -82,7 +82,7 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
         $isName = $column1->getName() != $column2->getName();
         $isType = $this->isType($column1, $column2);
         $isNullable = $column1->isNullable() != $column2->isNullable();
-        $isDefault = $column1->getDefault() != $column2->getDefault();
+        $isDefault = $this->isDefault($column1, $column2);
         $isComment = $column1->getComment() != $column2->getComment();
         $isAutoincrement = $this->isAutoincrement($column1, $column2);
         $isBinary = $this->isBinary($column1, $column2);
@@ -140,6 +140,28 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param ColumnInterface $column1
+     * @param ColumnInterface $column2
+     *
+     * @return bool
+     */
+    private function isDefault(ColumnInterface $column1, ColumnInterface $column2): bool
+    {
+        $res1 = $column1->getDefault();
+        $res2 = $column2->getDefault();
+
+        if ($column1 instanceof DefaultTimestampColumnAttributeInterface && $column1->isDefaultTimestamp()) {
+            $res1 = null;
+        }
+
+        if ($column2 instanceof DefaultTimestampColumnAttributeInterface && $column2->isDefaultTimestamp()) {
+            $res2 = null;
+        }
+
+        return $res1 !== $res2;
     }
 
     /**

@@ -247,6 +247,27 @@ class SQLColumnDifferTest extends TestCase
         $this->assertFalse($diff->isZerofill());
     }
 
+    public function testDiffDateNoDiff()
+    {
+        $clm1 = new DateTimeColumn(
+            'dt',
+            true,
+        );
+        $clm2 = new DateTimeColumn(
+            'dt',
+            true,
+            false,
+            false,
+            'current_timestamp()'
+        );
+
+        $differ = new SQLColumnDiffer();
+
+        $diff = $differ->diff($clm1, $clm2, '', '');
+
+        $this->assertNull($diff);
+    }
+
     public function testDiffFloat()
     {
         $clm1 = new FloatColumn(
