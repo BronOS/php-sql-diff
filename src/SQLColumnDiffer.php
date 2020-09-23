@@ -150,8 +150,8 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
      */
     private function isDefault(ColumnInterface $column1, ColumnInterface $column2): bool
     {
-        $res1 = $column1->getDefault();
-        $res2 = $column2->getDefault();
+        $res1 = $column1->getDefault() === '' ? null : $column1->getDefault();
+        $res2 = $column2->getDefault() === '' ? null : $column2->getDefault();
 
         if ($column1 instanceof DefaultTimestampColumnAttributeInterface && $column1->isDefaultTimestamp()) {
             $res1 = null;

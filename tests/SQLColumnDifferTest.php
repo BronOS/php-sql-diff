@@ -13,6 +13,7 @@ use BronOS\PhpSqlSchema\Column\Numeric\IntColumn;
 use BronOS\PhpSqlSchema\Column\Numeric\TinyIntColumn;
 use BronOS\PhpSqlSchema\Column\String\EnumColumn;
 use BronOS\PhpSqlSchema\Column\String\TextColumn;
+use BronOS\PhpSqlSchema\Column\String\VarCharColumn;
 use PHPUnit\Framework\TestCase;
 
 class SQLColumnDifferTest extends TestCase
@@ -259,6 +260,26 @@ class SQLColumnDifferTest extends TestCase
             false,
             false,
             'current_timestamp()'
+        );
+
+        $differ = new SQLColumnDiffer();
+
+        $diff = $differ->diff($clm1, $clm2, '', '');
+
+        $this->assertNull($diff);
+    }
+
+    public function testDiffDateNoDiffEmpty()
+    {
+        $clm1 = new VarCharColumn(
+            'vch',
+            100,
+        );
+        $clm2 = new VarCharColumn(
+            'vch',
+            100,
+            false,
+            ''
         );
 
         $differ = new SQLColumnDiffer();
