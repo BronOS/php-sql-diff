@@ -524,9 +524,10 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
         }
 
         // deleted
+        $deletedDiffList = [];
         foreach ($hash2 as $idx2) {
             if (!in_array($idx2->getName(), $processed)) {
-                $diffList[] = new ColumnDiff(
+                $deletedDiffList[] = new ColumnDiff(
                     DiffTypeEnum::DELETED(),
                     null,
                     $idx2
@@ -534,6 +535,6 @@ class SQLColumnDiffer implements SQLColumnDifferInterface
             }
         }
 
-        return $diffList;
+        return array_merge($deletedDiffList, $diffList);
     }
 }
